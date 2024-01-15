@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconnaissance vocale</title>
+</head>
+
+<body>
+    <p>Cliquez sur le bouton ci-dessous et commencez à parler pour voir votre discours écrit.</p>
+    <button id="start-btn">Commencez la reconnaissance vocale</button>
+    <div id="result"></div>
+
+    <script>
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'fr-FR';
+
+        recognition.onresult = function (event) {
+            var interim_transcript = '';
+            var final_transcript = '';
+
+            for (var i = event.resultIndex; i < event.result.length; i++) {
+
+                if (event.results[i].isFinal) {
+                    final_transcript += event.results[i][0].transcript;
+                } else {
+                    interim_transcript += event.results[i][0].transcript;
+                }
+            }
+
+            document.getElementById('start-btn').addEventListener('click', function () {
+                recognition.start();
+            })
+        }
+
+    </script>
+
+</body>
+
+</html>
